@@ -1,8 +1,8 @@
 # retaining-wall-check
-
+# 📔 Table of Contents
 
 # 專案目的
-在 GUI 內輸入擋土牆的尺寸就能檢核傾倒、抗滑動以及承載值破壞之檢驗。
+retaining-wall-check 提供 GUI 內輸入擋土牆的尺寸就能檢核傾倒、抗滑動以及承載值破壞之檢驗。
 # 螢幕截圖
 (放3張)
 # 檔案說明
