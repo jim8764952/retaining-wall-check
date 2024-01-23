@@ -1,9 +1,9 @@
 from PyQt6 import QtWidgets
 from UI import Ui_MainWindow
 import analyze
-import numpy as np
+# import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use("QtAgg")
 
@@ -13,6 +13,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.RW = analyze.analyze()
         self.setup_graph()
         self.mylineedit = {
             "H": self.ui.H_edit,
@@ -37,8 +38,8 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
     def setup_graph(self):
         self.ui.canvas = FigureCanvas(
-            analyze.graph())       # 將圖表繪製在 FigureCanvas 裡
-
+            self.RW.graph()  # 將圖表繪製在 FigureCanvas 裡
+            )
         self.ui.graphicscene = QtWidgets.QGraphicsScene()   # 建立場景
         self.ui.graphicscene.setSceneRect(0, 0, 387, 240)
         self.ui.graphicscene.addWidget(self.ui.canvas)              # 場景中放入圖表
@@ -50,22 +51,14 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             lineedit.textChanged.connect(self.lineeditChanged)
 
     def lineeditChanged(self):
-        # 計算
         args = {}
-        for key, lineedit in self.mylineedit.items():
+        for key, lineedit in self.mylineedit.items():  # get每格數值
             text = lineedit.text()
             if text != "":
                 args[key] = float(text)
         print(args)
-        analyze_text = analyze.main(**args)
-        self.ui.show_fsval.setPlainText(analyze_text)
-
-    def sinWave(self, i=0):
-        fig = plt.figure(figsize=(10, 10), dpi=100)
-        ax = plt.axes(xlim=(0, 2), ylim=(-2, 2))
-        line, = ax.plot([], [])
-        line.set_data([], [])
-        x = np.linspace(0, 2, 100)
-        y = np.sin(5 * np.pi * (x - 0.01*i))
-        line.set_data(x, y)
-        return fig
+        self.RW.update_val(**args)
+        fall_word = f"抗翻轉破壞安全係數 : {self.RW.FS_fall():.2f}"
+        slide_word = f"抗滑動破壞安全係數 : {self.RW.FS_slide():.2f}"
+        carry_word = f"抗承載值安全係數 : {self.RW.FS_carrying():.2f}"
+        self.ui.show_fsval.setPlainText("\n".join([fall_word, slide_word, carry_word]))

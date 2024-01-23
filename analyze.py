@@ -37,6 +37,33 @@ class analyze():
 
         self.rc = rc  # γc混凝土單位重(kN/m3)
 
+    def update_val(
+            self, H=6.7, H2=0.7, D=1.5, B=4, B1=0.7,
+            B2=0.5, B3=2.6, S1=0.2/6, S2=0, r2=19,
+            Phi2=20, c2=40, r1=18, Phi1=30, c1=0,
+            alpha=10, rc=23.58) -> None:
+
+        self.H = H  # 牆總高度(m)
+        self.H2 = H2  # 底板厚度(m)
+        self.D = D  # 牆底至牆趾地表深(m)
+        self.B = B  # 底板總寬度(m)
+        self.B1 = B1  # 牆趾寬(m)
+        self.B2 = B2  # 牆頂寬(m)
+        self.B3 = B3  # 牆跟寬(m)
+        self.S1 = S1  # 牆面斜率(最少0.02)
+        self.S2 = S2  # 牆背面斜率 0 = 垂直
+        self.alpha = alpha  # α回填土地表傾角(deg)
+
+        self.r2 = r2  # γ2地層單位重(kN/m3)
+        self.Phi2 = Phi2  # ϕ2 地層摩擦角(deg)
+        self.c2 = c2  # c2地層凝聚力(kN/m2)
+
+        self.r1 = r1   # γ1回填土單位重(kN/m3)
+        self.Phi1 = Phi1  # ϕ1 回填土摩擦角(deg)
+        self.c1 = c1  # c1回填土凝聚力(kN/m2)
+
+        self.rc = rc  # γc混凝土單位重(kN/m3)
+
     def Ka_R(self, theta, phi) -> float:  # Rankine 一般狀況主動土壓係數
         # 轉成 rad
         alpha_D, theta_D, _ = self.alpha, theta, phi  # 單位:度
