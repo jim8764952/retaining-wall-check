@@ -197,12 +197,11 @@ class analyze():
                 Fqd = 1
                 Frd = 1
             else:  # >0
-                Fqd, Fcd, Frd = [
-                    1 + 2 * tan(radians(self.Phi2))
-                    * (1-sin(radians(self.Phi2)))**2 * atan(Df / self.B),  # tan-1(r?d?)
-                    Fqd - (1 - Fqd)/(Nc * tan(radians(self.Phi2))),
-                    1
-                    ]
+                Fqd = 1 + 2 * tan(radians(self.Phi2)) \
+                    * (1-sin(radians(self.Phi2)))**2 * atan(Df / self.B)  # tan-1(r?d?)
+                Fcd = Fqd - (1 - Fqd)/(Nc * tan(radians(self.Phi2)))
+                Frd = 1
+
         # 傾斜因素
         Fci = (1 - beta / 90) ** 2
         Fqi = Fci

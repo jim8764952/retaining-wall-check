@@ -55,7 +55,16 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         for key, lineedit in self.mylineedit.items():  # get每格數值
             text = lineedit.text()
             if text != "":
-                args[key] = float(text)
+                try:
+                    args[key] = float(text)
+                    lineedit.setStyleSheet(
+                        ""
+                        )
+                except ValueError:
+                    lineedit.setStyleSheet(
+                        "QLineEdit { border: 2px solid red; }"
+                        )
+                    print("ValueError:")
         print(args)
         self.RW.update_val(**args)
         fall_word = f"抗翻轉破壞安全係數 : {self.RW.FS_fall():.2f}"
