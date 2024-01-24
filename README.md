@@ -1,4 +1,8 @@
 # retaining-wall-check
+
+<img src="https://firebasestorage.googleapis.com/v0/b/my-blog-14004.appspot.com/o/retaining-wall-check%2FRWAnal.png?alt=media&token=dc3d38e0-a3af-4089-a7d9-35ebb47c0a24"
+width="100" height="100">
+
 # 📔 Table of Contents
 
 # 專案目的
@@ -9,11 +13,15 @@ retaining-wall-check 提供 GUI 輸入擋土牆的尺寸就能檢核傾倒、抗
 # ⭐ Getting Started 入門指南
 
 ```shell
-fetcher --url="https://github.com/jim8764952/retaining-wall-check/blob/main/res/img.md"
+下載連結
 ```
+# 重點功能
 
-# 檔案說明
-資料夾說明
+
+# 重點技術
+matplotlib
+pyqt6
+python
 
 # Usage 使用範例
 
@@ -24,4 +32,5 @@ fetcher --url="https://github.com/jim8764952/retaining-wall-check/blob/main/res/
 
 
 # 🚧 License 授權
+
 # 🤝 Contact 聯絡我
