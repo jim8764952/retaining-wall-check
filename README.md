@@ -20,7 +20,9 @@ retaining-wall-check 提供 GUI 輸入擋土牆的尺寸就能檢核傾倒、抗
 
 # 重點技術
 matplotlib
+
 pyqt6
+
 python
 
 # Usage 使用範例
