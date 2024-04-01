@@ -111,7 +111,7 @@ class analyze():
         self.Ph = Pa * (cos(radians(self.alpha)))  # 水平分量
         # print(f"Ph -> {Ph:.4f}")
 
-        # 力矩計算可以參考切分圖如何劃分
+        # 力矩計算可以參考切分圖如何劃分 res/img.md
         self.Area = [
             (self.H-self.H2)**2 * self.S1 / 2,
             (self.H-self.H2) * self.B2, (self.H-self.H2)**2 * self.S2 / 2,
