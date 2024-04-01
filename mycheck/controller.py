@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets
-from mycheck.UI import Ui_MainWindow
-import mycheck.analyze as analyze
+from UI import Ui_MainWindow
+import analyze as analyze
 # import numpy as np
 import matplotlib
 # import matplotlib.pyplot as plt
