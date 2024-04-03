@@ -37,7 +37,7 @@ class analyze():
 
         self.rc = rc  # γc混凝土單位重(kN/m3)
 
-    def update_val(
+    def updateVal(
             self, H=6.7, H2=0.7, D=1.5, B=4, B1=0.7,
             B2=0.5, B3=2.6, S1=0.2/6, S2=0, r2=19,
             Phi2=20, c2=40, r1=18, Phi1=30, c1=0,
@@ -64,22 +64,22 @@ class analyze():
 
         self.rc = rc  # γc混凝土單位重(kN/m3)
 
-    def Ka_R(self, theta, phi) -> float:  # Rankine 一般狀況主動土壓係數
+    def KaR(self, theta, phi) -> float:  # Rankine 一般狀況主動土壓係數
         # 轉成 rad
-        alpha_D, theta_D, _ = self.alpha, theta, phi  # 單位:度
-        alpha_R, theta_R, phi_R = map(
+        alphaD, thetaD, _ = self.alpha, theta, phi  # 單位:度
+        alphaR, thetaR, phiR = map(
             radians, [self.alpha, theta, phi])  # 單位:弧度
         # 分子
-        fork = (degrees(asin(sin(alpha_R) / sin(phi_R)))) - alpha_D + 2 * theta_D
+        fork = (degrees(asin(sin(alphaR) / sin(phiR)))) - alphaD + 2 * thetaD
         # print(f"fork -> {fork:.4f}")
 
-        fork_R = radians(fork)
+        forkR = radians(fork)
         # print(f"fork_R -> {fork_R:.4f}")
 
-        root = 1 + (sin(phi_R))**2 - 2 * (sin(phi_R)) * (cos(fork_R))
+        root = 1 + (sin(phiR))**2 - 2 * (sin(phiR)) * (cos(forkR))
         # print(f"root -> {root:.4f}")
 
-        left = (cos(radians(alpha_D - theta_D)))
+        left = (cos(radians(alphaD - thetaD)))
         # print(f"left -> {left:.4f}")
 
         right = sqrt(root)
@@ -88,17 +88,17 @@ class analyze():
         mole = left * right
 
         # 分母
-        root = (sin(phi_R))**2 - (sin(alpha_R))**2
-        deno = (cos(theta_R))**2 * ((cos(alpha_R)) + sqrt(root))
+        root = (sin(phiR))**2 - (sin(alphaR))**2
+        deno = (cos(thetaR))**2 * ((cos(alphaR)) + sqrt(root))
 
         return mole / deno
 
-    def Kp_R(self) -> float:  # Rankine 一般狀況被動土壓係數
+    def KpR(self) -> float:  # Rankine 一般狀況被動土壓係數
         return tan(radians(45 + self.Phi1/2))**2
 
-    def FS_fall(self) -> float:
+    def FSFall(self) -> float:
         # 抗翻轉
-        Ka = self.Ka_R(theta=self.alpha, phi=self.Phi1)      # Rankine 主動土壓係數
+        Ka = self.KaR(theta=self.alpha, phi=self.Phi1)      # Rankine 主動土壓係數
         # print(f"Ka -> {Ka:.4f}")
         # Kp = 0      # Rankine 被動土壓係數
 
@@ -141,11 +141,11 @@ class analyze():
         FS_fall = self.sum_MR/self.sum_MO     # 傾倒係數
         return FS_fall
 
-    def FS_slide(self):
+    def FSSlide(self):
         # 抗滑動
         k1 = 2/3  # 預設
         k2 = 2/3
-        Kp = self.Kp_R()
+        Kp = self.KpR()
         Pp = (Kp * self.r2 * self.D**2) / 2 + (2 * self.c2 * sqrt(Kp) * self.D)  # 計算 Rankine 被動土壓力
         # print(f"Pp -> {Pp:.4f}")
         self.sum_V = sum([self.Pv]+[a*b for a, b in zip(self.Area, self.Weight)])
@@ -154,7 +154,7 @@ class analyze():
             / self.Ph
         return FS_slide
 
-    def FS_carrying(self) -> float:
+    def FSCarrying(self) -> float:
         # 承載值破壞之檢驗
         X_bar = (self.sum_MR - self.sum_MO) / self.sum_V
         e = self.B / 2 - X_bar       # 計算合力偏心值
@@ -164,7 +164,7 @@ class analyze():
             e_res = f"偏心量 : {e:.4f} < B/6"
 
         print(e_res)
-        q_max = self.sum_V / self.B * (1 + 6*e / self.B)
+        qMax = self.sum_V / self.B * (1 + 6*e / self.B)
         # print(f"q_max -> {q_max:4f}")
         # q_min = sum_V / B * (1 - 6*e / B)
         # print(f"q_min -> {q_min:4f}")
@@ -207,15 +207,15 @@ class analyze():
         Fqi = Fci
         Fri = (1 - beta / self.Phi2) ** 2
 
-        c_part = self.c2 * Nc * Fcs * Fcd * Fci
+        cPart = self.c2 * Nc * Fcs * Fcd * Fci
         # print(c_part)
-        q_part = self.r2 * self.D * Nq * Fqs * Fqd * Fqi
+        qPart = self.r2 * self.D * Nq * Fqs * Fqd * Fqi
         # print(q_part)
-        r_part = self.r2 / 2 * (self.B - 2*e) * Nr * Frs * Frd * Fri
+        rPart = self.r2 / 2 * (self.B - 2*e) * Nr * Frs * Frd * Fri
         # print(r_part)
-        qu = sum([c_part, q_part, r_part])
+        qu = sum([cPart, qPart, rPart])
         # print(f"qu -> {float(qu):.4f}")
-        return float(qu / q_max)
+        return float(qu / qMax)
 
     def graph(self, ):
         """繪製擋土牆預覽圖"""
@@ -278,11 +278,11 @@ if __name__ == "__main__":
     """
     retaining_wall = analyze()
 
-    fall = retaining_wall.FS_fall()
+    fall = retaining_wall.FSFall()
     print(f"抗翻轉破壞安全係數 : {fall:.2f}")
-    slide = retaining_wall.FS_slide()
+    slide = retaining_wall.FSSlide()
     print(f"抗滑動破壞安全係數 : {slide:.2f}")
     # e_val = retaining_wall.e
     # print(f"{e_val}")
-    carry = retaining_wall.FS_carrying()
+    carry = retaining_wall.FSCarrying()
     print(f"抗承載值安全係數 : {carry:.2f}")

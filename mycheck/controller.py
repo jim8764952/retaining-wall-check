@@ -14,7 +14,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.RW = analyze.analyze()
-        self.setup_graph()
+        self.setupGraph()
         self.mylineedit = {
             "H": self.ui.H_edit,
             "H2": self.ui.H2_Edit,
@@ -34,9 +34,9 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             "alpha": self.ui.alpha_Edit,
             "rc": self.ui.rc_Edit
         }
-        self.setup_control()
+        self.setupControl()
 
-    def setup_graph(self):
+    def setupGraph(self):
         self.ui.canvas = FigureCanvas(
             self.RW.graph()  # 將圖表繪製在 FigureCanvas 裡
             )
@@ -46,7 +46,7 @@ class MainWindow_controller(QtWidgets.QMainWindow):
 
         self.ui.graphicsView.setScene(self.ui.graphicscene)          # 元件中放入場景
 
-    def setup_control(self):
+    def setupControl(self):
         for lineedit in self.mylineedit.values():
             lineedit.textChanged.connect(self.lineeditChanged)
 
@@ -66,8 +66,8 @@ class MainWindow_controller(QtWidgets.QMainWindow):
                         )
                     print("ValueError:")
         print(args)
-        self.RW.update_val(**args)
-        fall_word = f"抗翻轉破壞安全係數 : {self.RW.FS_fall():.2f}"
-        slide_word = f"抗滑動破壞安全係數 : {self.RW.FS_slide():.2f}"
-        carry_word = f"抗承載值安全係數 : {self.RW.FS_carrying():.2f}"
+        self.RW.updateVal(**args)
+        fall_word = f"抗翻轉破壞安全係數 : {self.RW.FSFall():.2f}"
+        slide_word = f"抗滑動破壞安全係數 : {self.RW.FSSlide():.2f}"
+        carry_word = f"抗承載值安全係數 : {self.RW.FSCarrying():.2f}"
         self.ui.show_fsval.setPlainText("\n".join([fall_word, slide_word, carry_word]))
