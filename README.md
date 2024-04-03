@@ -13,7 +13,15 @@ retaining-wall-check 提供 GUI 輸入擋土牆的尺寸就能檢核傾倒、抗
 # ⭐ Getting Started 入門指南
 
 ```
+git clone https://github.com/jim8764952/retaining-wall-check.git
+```
+
+```
 pip install -r requirements.txt
+```
+
+```
+start.py
 ```
 # 重點功能
 
