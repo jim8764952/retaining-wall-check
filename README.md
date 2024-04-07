@@ -24,7 +24,9 @@ pip install -r requirements.txt
 start.py
 ```
 # 重點功能
-
+1. 翻轉檢測
+2. 滑動檢測
+3. 傾倒檢測
 
 # 重點技術
 matplotlib
